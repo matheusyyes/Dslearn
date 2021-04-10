@@ -1,8 +1,6 @@
 package com.devsuperior.dslearnbds.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,14 +8,11 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import com.devsuperior.dslearnbds.entities.enums.ResourceType;
-
 @Entity
-@Table(name="tb_resource")
-public class Resource implements Serializable{
+@Table(name="tb_section")
+public class Section implements Serializable{
 	private static final long serialVersionUID = 1L;
 
 	@Id
@@ -27,36 +22,30 @@ public class Resource implements Serializable{
 	private String description;
 	private Integer position;
 	private String imgUri;
-	private ResourceType type;
-	private String externalLink;
 	
-	@ManyToOne
-	@JoinColumn(name = "offer_id")
-	private Offer offer;
+	@ManyToOne()
+	@JoinColumn(name = "resource_id")
+	private Resource resource;
 	
-	@OneToMany(mappedBy = "resource")
-	private List<Section> sections = new ArrayList<>();
+	@ManyToOne()
+	@JoinColumn(name = "prerequisite_id")
+	private Section prerequisite;
 	
-	public Resource() {
+	public Section () {
 		
 	}
-	
-	
 
-	public Resource(Long id, String title, String description, Integer position, String imgUri, ResourceType type,
-			String externalLink, Offer offer) {
+	public Section(Long id, String title, String description, Integer position, String imgUri, Resource resource,
+			Section prerequisite) {
 		super();
 		this.id = id;
 		this.title = title;
 		this.description = description;
 		this.position = position;
 		this.imgUri = imgUri;
-		this.type = type;
-		this.externalLink = externalLink;
-		this.offer = offer;
+		this.resource = resource;
+		this.prerequisite = prerequisite;
 	}
-
-
 
 	public Long getId() {
 		return id;
@@ -94,39 +83,25 @@ public class Resource implements Serializable{
 		return imgUri;
 	}
 
-	public void setImgUri(String imgUrl) {
-		this.imgUri = imgUrl;
+	public void setImgUri(String imgUri) {
+		this.imgUri = imgUri;
 	}
 
-	public ResourceType getType() {
-		return type;
+	public Resource getResource() {
+		return resource;
 	}
 
-	public void setType(ResourceType type) {
-		this.type = type;
+	public void setResource(Resource resource) {
+		this.resource = resource;
 	}
 
-	public String getExternalLink() {
-		return externalLink;
+	public Section getPrerequisite() {
+		return prerequisite;
 	}
 
-	public void setExternalLink(String externalLink) {
-		this.externalLink = externalLink;
+	public void setPrerequisite(Section prerequisite) {
+		this.prerequisite = prerequisite;
 	}
-
-	public Offer getOffer() {
-		return offer;
-	}
-
-	public void setOffer(Offer offer) {
-		this.offer = offer;
-	}
-
-	public List<Section> getSections() {
-		return sections;
-	}
-
-
 
 	@Override
 	public int hashCode() {
@@ -136,8 +111,6 @@ public class Resource implements Serializable{
 		return result;
 	}
 
-
-
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
@@ -146,7 +119,7 @@ public class Resource implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Resource other = (Resource) obj;
+		Section other = (Section) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -156,5 +129,5 @@ public class Resource implements Serializable{
 	}
 	
 	
-	
 }
+

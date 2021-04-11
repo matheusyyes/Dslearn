@@ -9,39 +9,53 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinColumns;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.devsuperior.dslearnbds.entities.enums.DelverStatus;
+
 @Entity
-@Table(name = "tb_notification")
-public class Notification implements Serializable{
+@Table(name="tb_deliver")
+public class Deliver implements Serializable{
 	private static final long serialVersionUID = 1L;
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private String text;
+	private String uri;
 	@Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
 	private Instant moment;
-	private Boolean read;
-	private String route;
+	private DelverStatus status;
+	private String feedback;
+	private Integer correctCount;
+	
 	
 	@ManyToOne
-	@JoinColumn(name = "user_id")
-	private User user;
+	@JoinColumns({
+		@JoinColumn(name="offer_id"),
+		@JoinColumn(name="user_id")
+	})
+	private Enrollment enrollment;
 	
-	public Notification() {
+	@ManyToOne
+	@JoinColumn(name="lesson_id")
+	private Lesson lesson;
+	
+	public Deliver() {
 		
 	}
 
-	public Notification(Long id, String text, Instant moment, Boolean read, String route, User user) {
+	public Deliver(Long id, String uri, Instant moment, DelverStatus status, String feedback, Integer correctCount,
+			Lesson lesson) {
 		super();
 		this.id = id;
-		this.text = text;
+		this.uri = uri;
 		this.moment = moment;
-		this.read = read;
-		this.route = route;
-		this.user = user;
+		this.status = status;
+		this.feedback = feedback;
+		this.correctCount = correctCount;
+		this.lesson = lesson;
 	}
 
 	public Long getId() {
@@ -52,12 +66,12 @@ public class Notification implements Serializable{
 		this.id = id;
 	}
 
-	public String getText() {
-		return text;
+	public String getUri() {
+		return uri;
 	}
 
-	public void setText(String text) {
-		this.text = text;
+	public void setUri(String uri) {
+		this.uri = uri;
 	}
 
 	public Instant getMoment() {
@@ -68,28 +82,36 @@ public class Notification implements Serializable{
 		this.moment = moment;
 	}
 
-	public Boolean getRead() {
-		return read;
+	public DelverStatus getStatus() {
+		return status;
 	}
 
-	public void setRead(Boolean read) {
-		this.read = read;
+	public void setStatus(DelverStatus status) {
+		this.status = status;
 	}
 
-	public String getRoute() {
-		return route;
+	public String getFeedback() {
+		return feedback;
 	}
 
-	public void setRoute(String route) {
-		this.route = route;
+	public void setFeedback(String feedback) {
+		this.feedback = feedback;
 	}
 
-	public User getUser() {
-		return user;
+	public Integer getCorrectCount() {
+		return correctCount;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setCorrectCount(Integer correctCount) {
+		this.correctCount = correctCount;
+	}
+
+	public Lesson getLesson() {
+		return lesson;
+	}
+
+	public void setLesson(Lesson lesson) {
+		this.lesson = lesson;
 	}
 
 	@Override
@@ -108,7 +130,7 @@ public class Notification implements Serializable{
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Notification other = (Notification) obj;
+		Deliver other = (Deliver) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -116,7 +138,5 @@ public class Notification implements Serializable{
 			return false;
 		return true;
 	}
-	
-	
 	
 }

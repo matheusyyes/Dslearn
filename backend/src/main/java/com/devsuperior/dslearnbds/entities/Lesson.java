@@ -36,6 +36,7 @@ public abstract class Lesson implements Serializable{
 	@JoinColumn(name="section_id")
 	private Section section;
 	
+	
 	@ManyToMany
 	@JoinTable(name = "tb_lessons_done",
 	joinColumns = @JoinColumn(name = "lesson_id"),

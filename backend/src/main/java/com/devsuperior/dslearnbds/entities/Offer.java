@@ -36,6 +36,9 @@ public class Offer implements Serializable{
 	@OneToMany(mappedBy = "offer")
 	private List<Resource> resources = new ArrayList<>();
 	
+	@OneToMany(mappedBy = "offer")
+	private List<Topic> topics = new ArrayList<>();	
+	
 	public Offer() {
 		
 	}
@@ -93,6 +96,10 @@ public class Offer implements Serializable{
 		return resources;
 	}
 
+	public List<Topic> getTopics() {
+		return topics;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

@@ -113,6 +113,16 @@ public class Deliver implements Serializable{
 	public void setLesson(Lesson lesson) {
 		this.lesson = lesson;
 	}
+	
+	
+
+	public Enrollment getEnrollment() {
+		return enrollment;
+	}
+
+	public void setEnrollment(Enrollment enrollment) {
+		this.enrollment = enrollment;
+	}
 
 	@Override
 	public int hashCode() {
